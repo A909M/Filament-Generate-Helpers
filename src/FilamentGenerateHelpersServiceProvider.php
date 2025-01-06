@@ -1,12 +1,12 @@
 <?php
 
-namespace VendorName\Skeleton;
+namespace A909M\FilamentGenerateHelpers;
 
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use VendorName\Skeleton\Commands\SkeletonCommand;
+use A909M\FilamentGenerateHelpers\Commands\FilamentGenerateHelpersCommand;
 
-class SkeletonServiceProvider extends PackageServiceProvider
+class FilamentGenerateHelpersServiceProvider extends PackageServiceProvider
 {
     public function configurePackage(Package $package): void
     {
@@ -16,10 +16,7 @@ class SkeletonServiceProvider extends PackageServiceProvider
          * More info: https://github.com/spatie/laravel-package-tools
          */
         $package
-            ->name('skeleton')
-            ->hasConfigFile()
-            ->hasViews()
-            ->hasMigration('create_migration_table_name_table')
-            ->hasCommand(SkeletonCommand::class);
+            ->name('filament-generate-helpers')
+            ->hasCommand(FilamentGenerateHelpersCommand::class);
     }
 }
