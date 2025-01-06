@@ -16,6 +16,7 @@ class FilamentGenerateHelpersCommand extends Command
     use CanIndentStrings;
     use CanManipulateFiles;
     use CanReadModelSchemas;
+
     public $signature = 'filament-generate-helpers:run {name?} {--model-namespace=} {--F|force}';
 
     public $description = 'Create a new helper class. and generate the form and table columns methods on traits';
@@ -52,7 +53,7 @@ class FilamentGenerateHelpersCommand extends Command
         $helperNameSpace = "App\\Filament\\Helpers\\{$model}";
         $formFieldsTrait = "{$modelClass}FormFields";
         $tableColumnsTrait = "{$modelClass}TableColumns";
-        $traits = $formFieldsTrait . ',' . $tableColumnsTrait;
+        $traits = $formFieldsTrait.','.$tableColumnsTrait;
         $baseHelperPath =
             (string) str($helper)
                 ->prepend('/')
@@ -78,21 +79,21 @@ class FilamentGenerateHelpersCommand extends Command
             'traits' => $traits,
             'formFieldsTrait' => $formFieldsTrait,
             'tableColumnsTrait' => $tableColumnsTrait,
-            'FieldsCall' => $this->indentString($this->getResourceFormSchema($modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass, true) ?: '//'),
-            'ColumnsCall' => $this->indentString($this->getResourceTableColumns($modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass, true) ?: '//'),
+            'FieldsCall' => $this->indentString($this->getResourceFormSchema($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass, true) ?: '//'),
+            'ColumnsCall' => $this->indentString($this->getResourceTableColumns($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass, true) ?: '//'),
         ]);
 
         $this->copyStubToApp('FormFields', $formFieldsTraitPath, [
             'trait' => $formFieldsTrait,
             'namespace' => $helperNameSpace,
-            'functions' => $this->indentString($this->getResourceFormSchema($modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass) ?: '//'),
+            'functions' => $this->indentString($this->getResourceFormSchema($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass) ?: '//'),
 
         ]);
 
         $this->copyStubToApp('TableColumns', $tableColumnsTraitPath, [
             'trait' => $tableColumnsTrait,
             'namespace' => $helperNameSpace,
-            'functions' => $this->indentString($this->getResourceTableColumns($modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass) ?: '//'),
+            'functions' => $this->indentString($this->getResourceTableColumns($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass) ?: '//'),
         ]);
         $this->components->info("Filament Class helper [{$helperPath}] created successfully.");
         $this->components->info("Trait Form helper [{$formFieldsTraitPath}] created successfully.");
