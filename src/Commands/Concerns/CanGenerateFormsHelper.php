@@ -132,8 +132,8 @@ trait CanGenerateFormsHelper
         if ($isFunCall) {
 
             foreach ($components as $componentName => $componentData) {
-
-                $output .= "static::{$componentName}Field(),";
+                $functionName = Str::camel("{$componentName}Field");
+                $output .= "static::{$functionName}(),";
                 $output .= PHP_EOL;
             }
 
@@ -142,7 +142,7 @@ trait CanGenerateFormsHelper
             foreach ($components as $componentName => $componentData) {
                 // Constructor
                 $Prototype = (string) str($componentData['type']);
-                $functionName = "{$componentName}Field";
+                $functionName = Str::camel("{$componentName}Field");
                 $output .= PHP_EOL;
                 $output .= '/**'.PHP_EOL;
                 $output .= " * {$functionName}".PHP_EOL;
