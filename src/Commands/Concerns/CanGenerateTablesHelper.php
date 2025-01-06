@@ -140,7 +140,7 @@ trait CanGenerateTablesHelper
 
             foreach ($columns as $columnName => $columnData) {
                 // Constructor
-                $Prototype = (string) str($columnData['type']);
+                $Prototype = '\\'.(string) str($columnData['type']);
                 $functionName = Str::camel("{$columnName}Column");
                 $output .= PHP_EOL;
                 $output .= '/**'.PHP_EOL;

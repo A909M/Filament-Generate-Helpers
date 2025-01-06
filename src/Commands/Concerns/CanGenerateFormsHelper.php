@@ -141,7 +141,7 @@ trait CanGenerateFormsHelper
         } else {
             foreach ($components as $componentName => $componentData) {
                 // Constructor
-                $Prototype = (string) str($componentData['type']);
+                $Prototype = '\\'.(string) str($componentData['type']);
                 $functionName = Str::camel("{$componentName}Field");
                 $output .= PHP_EOL;
                 $output .= '/**'.PHP_EOL;
