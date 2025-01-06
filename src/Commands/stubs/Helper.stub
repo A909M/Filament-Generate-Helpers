@@ -1,0 +1,25 @@
+<?php
+
+
+namespace {{ namespace }};
+use {{ namespace }}\Traits\{{ formFieldsTrait }};
+use {{ namespace }}\Traits\{{ tableColumnsTrait }};
+class {{ class }}
+{
+    use  {{ formFieldsTrait }} ,{{ tableColumnsTrait }};
+
+
+    public static function formFields(): array
+    {
+        return [
+{{ FieldsCall }}
+        ];
+    }
+
+    public static function tableColumns(): array
+    {
+        return [
+{{ ColumnsCall }}
+        ];
+    }
+}

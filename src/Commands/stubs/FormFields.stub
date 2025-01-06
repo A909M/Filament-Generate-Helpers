@@ -1,0 +1,7 @@
+<?php
+
+namespace  {{ namespace }}\Traits;
+trait {{ trait }}
+{
+{{ functions }}
+}
