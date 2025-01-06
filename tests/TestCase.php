@@ -2,9 +2,8 @@
 
 namespace A909M\FilamentGenerateHelpers\Tests;
 
-use Illuminate\Database\Eloquent\Factories\Factory;
-use Orchestra\Testbench\TestCase as Orchestra;
 use A909M\FilamentGenerateHelpers\FilamentGenerateHelpersServiceProvider;
+use Orchestra\Testbench\TestCase as Orchestra;
 
 class TestCase extends Orchestra
 {

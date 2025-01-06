@@ -2,9 +2,9 @@
 
 namespace A909M\FilamentGenerateHelpers;
 
+use A909M\FilamentGenerateHelpers\Commands\FilamentGenerateHelpersCommand;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
-use A909M\FilamentGenerateHelpers\Commands\FilamentGenerateHelpersCommand;
 
 class FilamentGenerateHelpersServiceProvider extends PackageServiceProvider
 {
