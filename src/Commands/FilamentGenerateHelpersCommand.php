@@ -20,7 +20,6 @@ class FilamentGenerateHelpersCommand extends Command
     public $signature = 'filament-generate-helpers:run {name?} {--model-namespace=} {--F|force}';
 
     public $description = 'Create a new helper class. and generate the form and table columns methods on traits';
-
     public function handle(): int
     {
         $model = (string) str($this->argument('name') ?? text(
@@ -50,22 +49,18 @@ class FilamentGenerateHelpersCommand extends Command
         $helperClass = "{$modelClass}Helper";
 
         $path = app_path("Filament/Helpers/{$model}");
-        $helperNameSpace = "App\\Filament\\Helpers\\{$model}";
+        $helperNamespace = "App\\Filament\\Helpers\\{$model}";
         $formFieldsTrait = "{$modelClass}FormFields";
         $tableColumnsTrait = "{$modelClass}TableColumns";
-        $traits = $formFieldsTrait.','.$tableColumnsTrait;
-        $baseHelperPath =
-            (string) str($helper)
-                ->prepend('/')
-                ->prepend($path)
-                ->replace('\\', '/')
-                ->replace('//', '/');
+
+        $traits = $formFieldsTrait . ',' . $tableColumnsTrait;
+        $baseHelperPath = "{$path}/{$helperClass}";
         $helperPath = "{$baseHelperPath}.php";
-        $helperTraitDirectory = "{$baseHelperPath}/Traits";
+        $helperTraitDirectory = "{$path}/Traits";
         $formFieldsTraitPath = "{$helperTraitDirectory}/{$formFieldsTrait}.php";
         $tableColumnsTraitPath = "{$helperTraitDirectory}/{$tableColumnsTrait}.php";
-        //
-        if (! $this->option('force') && $this->checkForCollision([
+
+        if (!$this->option('force') && $this->checkForCollision([
             $helperPath,
             $formFieldsTraitPath,
             $tableColumnsTraitPath,
@@ -75,26 +70,36 @@ class FilamentGenerateHelpersCommand extends Command
 
         $this->copyStubToApp('Helper', $helperPath, [
             'class' => $helperClass,
-            'namespace' => $helperNameSpace,
+            'namespace' => $helperNamespace,
             'traits' => $traits,
             'formFieldsTrait' => $formFieldsTrait,
             'tableColumnsTrait' => $tableColumnsTrait,
-            'FieldsCall' => $this->indentString($this->getResourceFormSchema($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass, true) ?: '//'),
-            'ColumnsCall' => $this->indentString($this->getResourceTableColumns($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass, true) ?: '//'),
+            'FieldsCall' => $this->indentString($this->getResourceFormSchema(
+                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass,
+                true
+            ) ?: '//'),
+            'ColumnsCall' => $this->indentString($this->getResourceTableColumns(
+                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass,
+                true
+            ) ?: '//'),
         ]);
 
         $this->copyStubToApp('FormFields', $formFieldsTraitPath, [
             'trait' => $formFieldsTrait,
-            'namespace' => $helperNameSpace,
-            'functions' => $this->indentString($this->getResourceFormSchema($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass) ?: '//'),
-
+            'namespace' => "{$helperNamespace}",
+            'functions' => $this->indentString($this->getResourceFormSchema(
+                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass
+            ) ?: '//'),
         ]);
 
         $this->copyStubToApp('TableColumns', $tableColumnsTraitPath, [
             'trait' => $tableColumnsTrait,
-            'namespace' => $helperNameSpace,
-            'functions' => $this->indentString($this->getResourceTableColumns($modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass) ?: '//'),
+            'namespace' => "{$helperNamespace}",
+            'functions' => $this->indentString($this->getResourceTableColumns(
+                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass
+            ) ?: '//'),
         ]);
+
         $this->components->info("Filament Class helper [{$helperPath}] created successfully.");
         $this->components->info("Trait Form helper [{$formFieldsTraitPath}] created successfully.");
         $this->components->info("Trait Table helper [{$tableColumnsTraitPath}] created successfully.");
