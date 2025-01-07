@@ -129,7 +129,8 @@ trait CanGenerateTablesHelper
         if ($isFunCall) {
             // code...
             foreach ($columns as $columnName => $columnData) {
-                $functionName = Str::camel("{$columnName}Column");
+                $baseColumnName = Str::before($columnName, '.');
+                $functionName = Str::camel("{$baseColumnName}Column");
                 $output .= "static::{$functionName}(),";
                 $output .= PHP_EOL;
             }
@@ -141,7 +142,8 @@ trait CanGenerateTablesHelper
             foreach ($columns as $columnName => $columnData) {
                 // Constructor
                 $Prototype = '\\'.(string) str($columnData['type']);
-                $functionName = Str::camel("{$columnName}Column");
+                $baseColumnName = Str::before($columnName, '.');
+                $functionName = Str::camel("{$baseColumnName}Column");
                 $output .= PHP_EOL;
                 $output .= '/**'.PHP_EOL;
                 $output .= " * {$functionName}".PHP_EOL;

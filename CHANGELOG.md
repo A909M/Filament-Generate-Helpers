@@ -2,6 +2,10 @@
 
 All notable changes to `Filament-Generate-Helpers` will be documented in this file.
 
+## 1.0.3 - 2025-01-07
+
+- fix culomn function name
+
 ## 1.0.2 - 2025-01-07
 
 ### What's Changed
