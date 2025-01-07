@@ -20,6 +20,7 @@ class FilamentGenerateHelpersCommand extends Command
     public $signature = 'filament-generate-helpers:run {name?} {--model-namespace=} {--F|force}';
 
     public $description = 'Create a new helper class. and generate the form and table columns methods on traits';
+
     public function handle(): int
     {
         $model = (string) str($this->argument('name') ?? text(
@@ -53,14 +54,14 @@ class FilamentGenerateHelpersCommand extends Command
         $formFieldsTrait = "{$modelClass}FormFields";
         $tableColumnsTrait = "{$modelClass}TableColumns";
 
-        $traits = $formFieldsTrait . ',' . $tableColumnsTrait;
+        $traits = $formFieldsTrait.','.$tableColumnsTrait;
         $baseHelperPath = "{$path}/{$helperClass}";
         $helperPath = "{$baseHelperPath}.php";
         $helperTraitDirectory = "{$path}/Traits";
         $formFieldsTraitPath = "{$helperTraitDirectory}/{$formFieldsTrait}.php";
         $tableColumnsTraitPath = "{$helperTraitDirectory}/{$tableColumnsTrait}.php";
 
-        if (!$this->option('force') && $this->checkForCollision([
+        if (! $this->option('force') && $this->checkForCollision([
             $helperPath,
             $formFieldsTraitPath,
             $tableColumnsTraitPath,
@@ -75,11 +76,11 @@ class FilamentGenerateHelpersCommand extends Command
             'formFieldsTrait' => $formFieldsTrait,
             'tableColumnsTrait' => $tableColumnsTrait,
             'FieldsCall' => $this->indentString($this->getResourceFormSchema(
-                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass,
+                $modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass,
                 true
             ) ?: '//'),
             'ColumnsCall' => $this->indentString($this->getResourceTableColumns(
-                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass,
+                $modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass,
                 true
             ) ?: '//'),
         ]);
@@ -88,7 +89,7 @@ class FilamentGenerateHelpersCommand extends Command
             'trait' => $formFieldsTrait,
             'namespace' => "{$helperNamespace}",
             'functions' => $this->indentString($this->getResourceFormSchema(
-                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass
+                $modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass
             ) ?: '//'),
         ]);
 
@@ -96,7 +97,7 @@ class FilamentGenerateHelpersCommand extends Command
             'trait' => $tableColumnsTrait,
             'namespace' => "{$helperNamespace}",
             'functions' => $this->indentString($this->getResourceTableColumns(
-                $modelNamespace . ($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '') . '\\' . $modelClass
+                $modelNamespace.($modelSubNamespace !== '' ? "\\{$modelSubNamespace}" : '').'\\'.$modelClass
             ) ?: '//'),
         ]);
 
